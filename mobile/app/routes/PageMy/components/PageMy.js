@@ -1,43 +1,70 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 
+import store from "../../../store";
+
+@observer
 class PageMy extends React.Component {
+
 	constructor(props, context) {
 		super(props, context);
-		this.state = {};
+		this.store = store;
 	}
 
+	componentDidMount() {
+	}
+	
+	login = () => {
+		console.log('login');
+		this.store.showLogin = ture;
+		// this.setState({photoId: 'user.jpg', name: 'dashabi'})
+	}
 
-	// componentDidMount() {
-	// 	if(!this.state.customer) {
-	// 		setTimeout(() => this.login(), 1000)
-	// 	}
-	// }
+	handleCollection = () => {
+		console.log('handleCollection');
+	}
 
-	// login() {
-	// 	this.setState({ photoId: "123", name: "dashabi" });
-	// }
+	handleComment = () => {
+		console.log('handleComment');
+	}
+
+	handleImg = () => {
+		console.log('handleImg');
+		let { user } = this.store;
+		if(user.id) {
+			user.name = window.prompt('请输入你的新名字', user.name) || user.name;
+		}else {
+			this.store.showLogin = true;
+		}
+	}
 
 	render() {
+		let { photoId, name } = this.store.user;
+		console.log(this.store)
 		return (
 			<div className="PageMy">
 				<header>
 					<i className="icon" >☺</i>
-					<img src="xxx"/>
-					<p>点击登陆后可评论</p>
+					<img src={img( photoId || 'default.png')} onClick={this.handleImg} />
+					<p>{ name || '点击登陆后可评论'}</p>
 					<ul>
-						<li><i>♥</i>我的收藏</li>
-						<li><i>✉</i>我的评论</li>
+						<li onClick={this.handleCollection}><i>♥</i>我的收藏</li>
+						<li onClick={this.handleComment}><i>✉</i>我的评论</li>
 					</ul>
 				</header>
-				<ul>
-					<li>我的消息</li>
-					<li>我的关注</li>
-					<li>我的缓存</li>
-					<li>功能开关</li>
-				</ul>
+				<dl>
+					<dt>我的消息</dt>
+					<dt>我的关注</dt>
+					<dt>我的缓存</dt>
+					<dt>功能开关</dt>
+				</dl>
 			</div>
 		)
 	}
 };
+
+function img(name) {
+	return `./images/${name}`
+}
 
 module.exports = PageMy;

@@ -19,11 +19,12 @@ module.exports = {
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
-          presets: ['react', 'es2015', 'stage-3']
+          presets: ['react', 'es2015', 'stage-0'],
+          plugins: ['transform-decorators-legacy']
         }
       }, 
       {test: /\.(png|jpg)$/, loader: 'url?limit=40000'},
-      {test:/\.less$/,loader:'style-loader!css-loader!less-loader'},
+      {test:/\.less$/,loader:'style!css!less'},
       {test:/\.css$/,loader:'style!css'}
     ]
   }
